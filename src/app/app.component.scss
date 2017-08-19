@@ -1,0 +1,33 @@
+.control {
+  display: flex;
+
+  nav {
+    display: flex;
+    padding: 5px;
+    align-items: center;
+
+    > * {
+      margin-right: 5px;
+    }
+  }
+}
+
+.explanation {
+  article {
+    padding: 5px;
+  }
+}
+
+section {
+  border: 1px solid black;
+  background-color: #f2f2f2;
+  margin: 20px 10px;
+  flex: auto;
+
+  > header {
+    padding: 5px 5px;
+    display: block;
+    background-color: #b3b3b3;
+    font-weight: bold;
+  }
+}
