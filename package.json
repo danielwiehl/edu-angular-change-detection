@@ -3,12 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build-ghpages": "ng build --prod --base-href \"https://danielwiehl.github.io/edu-angular-change-detection/\"",
+    "deploy-ghpages": "ngh --message=\"Deploy to https://danielwiehl.github.io/edu-angular-change-detection/\""
   },
   "private": true,
   "dependencies": {
@@ -32,6 +28,7 @@
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
     "codelyzer": "~3.0.1",
+    "enhanced-resolve": "3.3.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",

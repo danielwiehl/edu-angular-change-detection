@@ -1,0 +1,141 @@
+:host {
+  position: relative; // anchor
+  background-color: white;
+  display: inline-block;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+
+  &.dirty-check {
+    &.level-1 {
+      background-color: #e6e6ff;
+    }
+    &.level-2 {
+      background-color: #ccccff;
+    }
+    &.level-3 {
+      background-color: #b3b3ff;
+    }
+    &.level-4 {
+      background-color: #9999ff;
+    }
+    &.level-5 {
+      background-color: #8080ff;
+    }
+    &.level-6 {
+      background-color: #6666ff;
+    }
+    &.level-7 {
+      background-color: #4d4dff;
+    }
+    &.level-8 {
+      background-color: #3333ff;
+    }
+    &.level-9 {
+      background-color: #1a1aff;
+    }
+    &.level-10 {
+      background-color: #0000ff;
+    }
+  }
+
+  > div.state {
+
+    > span {
+      display: inline-block;
+      margin: 2px 0;
+      padding: 2px 3px;
+      border-radius: 3px;
+      border: 1px solid;
+      font-size: .8rem;
+      color: black;
+      background-color: white;
+    }
+
+    > span.strategy-box {
+      border-color: black;
+      color: white;
+
+      &.Default {
+        border-color: black;
+        background-color: black;
+        color: white;
+      }
+
+      &.OnPush {
+        border-color: deeppink;
+        background-color: deeppink;
+        color: white;
+      }
+    }
+
+    > span.cd-state-box {
+      border-color: #004d1a;
+      color: #004d1a;
+      background-color: #b3ffcc;
+      &::before {
+        content: 'attached';
+      }
+
+      &.cd-detached {
+        color: #000000;
+        background-color: #cccccc;
+        border-color: #000000;
+        &::before {
+          content: 'detached';
+        }
+      }
+    }
+
+    > span.ng-do-check-box {
+      border-color: darkgray;
+      color: darkgray;
+
+      &.ng-do-check {
+        border-color: red;
+        color: red;
+        background-color: #ffe6e6;
+      }
+    }
+
+    > span.ng-on-changes-box {
+      border-color: darkgray;
+      color: darkgray;
+
+      &.ng-on-changes {
+        border-color: red;
+        color: red;
+        background-color: #ffe6e6;
+      }
+    }
+  }
+
+  > div.name{
+    padding: 5px 0;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  > table.input-box {
+    margin: 5px auto;
+    font-size: 11px;
+    border: 1px solid #000000;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    td, th {
+      padding: 2px 3px;
+      text-align: left;
+    }
+  }
+
+  > div.control > button {
+    font-size: 12px;
+  }
+
+  > div.children {
+    display: flex;
+    justify-content: center;
+  }
+}

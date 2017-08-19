@@ -1,0 +1,38 @@
+# This file contains instructions for the build server Travis
+# The build is running on https://travis-ci.com/.
+
+env:
+  global:
+    # $GH_TOKEN Token to access GitHub repo for deploying to GitHub Pages
+    secure: gXNhoPHOyz6XWSLNUcNm7bLxH7U0ZiEFW6rNhU7dlL8ocMyR1veagF9ahs0Cqlrhbt87HmJZzyLRDU2efPj9x+sfWP03WT8mxu8W1K3iSCwn9VDj7+69b7u/KgvBkLYHWPEWQAyQKMmaGG3MyQBhO4cV9ymLof5SO/3IWhQOSolp0Z+MlfFmicMz7jewUkZOVskF3g3JJGxgH1RpN6b07LhEPSU0pesnSA9QUAcxJ4L9RgLVhdxsY2oC1Fr05Gu++m6csPFPB4IHtRtnwfOcmfPW++nM50NJmaPl5RNHz9nBvF870EzJ1vKgQirSU4tkzRrwGIZoVbNr0vWtcVP6ITOosc5dnvJsxuQ8jkuPDmW0di0iDRjyW0n6X6HnORi2RiX+yWEYz5cEsmi6AIlGf7RBZudbvdNIfBcLahWAd1Hv6KQEQEWKI0utfnsPOao3aewMH8NGQUhvskTjXOhcmRmUpuUywst+TZv7DxkadV/T/erc57sRBoY7v/ilw2KqYsmfpq5T8vXYlIp+VqMh/gvSUrM6hvcKsX121guAmqb41x7hTOYG3h939UDVbb29+oxaoO5J2TMwfgSG0Tus2OrY1IcLUnt14YGmkxkPRdh4aC1aXBMU9Jg7tRer58+wtoaJLaFTIq7XqDyZWpXGEJ/SHs0KEe9FpgFHukNJLwo=
+
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+  - '8'
+addons:
+apt:
+  sources:
+    - google-chrome
+  packages:
+    - google-chrome-stable
+    - google-chrome-beta
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+install:
+  - npm install
+script:
+  - ng lint
+#  - ng test --single-run
+  - npm run build-ghpages
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN
+  local_dir: dist
+  on:
+    branch: master
+
