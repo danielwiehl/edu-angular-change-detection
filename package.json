@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build-ghpages": "ng build --prod --base-href \"https://monbijou.github.io/monbijou/\"",
-    "deploy-ghpages": "ngh --message=\"Deploy to https://monbijou.github.io/monbijou/\""
+    "build-ghpages": "ng build --prod --base-href \"https://danielwiehl.github.io/edu-angular-change-detection/\"",
+    "deploy-ghpages": "ngh --message=\"Deploy to https://danielwiehl.github.io/edu-angular-change-detection/\""
   },
   "private": true,
   "dependencies": {
