@@ -1,0 +1,32 @@
+env:
+  global:
+  - secure: d/MFdhvJq+B6RTn/jMbK01rcXGUfkkwm44eqoHzrkYbh1RQvhSZWfaZAW7zS9avmWoU3t0awm0/g5Z96VGoV/F4sJgCvOzIJMPEW9+xsije/Z+nT+sI6O5OfD9MElb2ijP1V8F8V9pl8d0sjtN3NNgzOSgOL+FaXxsxlEplTKQLAhfnbbwuuW5vCly0Od7yGllbTXYmEpD3HMDmMK4Xw02y5J8EgpKGoeXmbMti9/Jgck/vZXO3FGBrSm2EBCZoDhqlwmlQ1m8qTwv8hEHhVqvszqJELgjNOI5qLjoplHyJacP30A8PqPRuYRE85UwdXoIcn2nmaBUhQu7T36e7IqpqMqqHZSTsnKIjRgDtd8y5jmnhfR6FIm1sxIswAzaY+6jz7lDmyGCIZte7aywS1+Gt0DLTZp1XBJ/mMjMCG41735yr485APU4IbT6Z/NeoGu13Mzgwp6FcSkONCbKaBpeSXt2Sefu/cL/r8+JveY4qS+uvSO1r84dnxpDrLhEA3hGoeaHvF/jPpf8pFzut7GpU14zVVzUoXJVURc1NTh15UgOhRxJd13XmO1tehy5x5iFEc+PWqhEWVP5ooog46RwsS8rQ9phxhwTIWe6HRYE0OUd1qGlxMuQxqsp1ZLjxJgwwNOtuPHvXQRBfB4B1WutIC+lY1vB18K6BZDagziZA=
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+- '8'
+addons:
+apt:
+  sources:
+  - google-chrome
+  packages:
+  - google-chrome-stable
+  - google-chrome-beta
+before_install:
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+install:
+- npm install
+script:
+- ng lint
+- ng test --single-run
+- npm run build-ghpages
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: "$GH_TOKEN"
+  local_dir: dist
+  on:
+    branch: master

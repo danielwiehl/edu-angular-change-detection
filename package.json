@@ -3,12 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build-ghpages": "ng build --prod --base-href \"https://monbijou.github.io/monbijou/\"",
+    "deploy-ghpages": "ngh --message=\"Deploy to https://monbijou.github.io/monbijou/\""
   },
   "private": true,
   "dependencies": {
