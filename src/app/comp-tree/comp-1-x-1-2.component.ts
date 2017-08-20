@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Host
 import { ColorService } from '../color.service';
 import { AbstractChangeDetectionComponent } from '../abstract-change-detection.component';
 import { template } from '../change-detection.component.template';
+import { DirtyCheckColoringService } from '../dirty-check-coloring.service';
+import { ExpandCollapseService } from '../expand-collapse.service';
 
-const NAME = 'comp-1-1-2-2';
+const NAME = 'comp-1-x-1-2';
 const LEVEL = 4;
 const CD_STRATEGY = ChangeDetectionStrategy.OnPush;
 const CHILD_TEMPLATE = ``;
@@ -15,9 +17,9 @@ const CHILD_TEMPLATE = ``;
   providers: [ColorService],
   changeDetection: CD_STRATEGY
 })
-export class Comp_1_1_2_2_Component extends AbstractChangeDetectionComponent { // tslint:disable-line:class-name
+export class Comp_1_x_1_2_Component extends AbstractChangeDetectionComponent { // tslint:disable-line:class-name
 
-  constructor(hostRef: ElementRef, colorService: ColorService, cd: ChangeDetectorRef, zone: NgZone) {
-    super(NAME, LEVEL, hostRef, colorService, cd, zone, CD_STRATEGY);
+  constructor(hostRef: ElementRef, colorService: ColorService, dirtyCheckColoringService: DirtyCheckColoringService, expandCollapseService: ExpandCollapseService, cd: ChangeDetectorRef, zone: NgZone) {
+    super(NAME, LEVEL, hostRef, colorService, dirtyCheckColoringService, expandCollapseService, cd, zone, CD_STRATEGY);
   }
 }
