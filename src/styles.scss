@@ -2,5 +2,26 @@
 
 body {
   font-family: 'Arial', sans-serif;
+  box-sizing: border-box;
 }
 
+app-comp-1 {
+  > div.component > div.children {
+    flex-direction: column !important;
+    justify-content: center;
+  }
+  width: calc(100% - 40px);
+}
+
+button {
+  border: 1px solid darkgray;
+  background-color: white;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+button.emphasize {
+  background-color: #ddffcc;
+  border-color: #226600;
+  color: #226600;
+}

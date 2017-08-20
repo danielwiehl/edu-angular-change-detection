@@ -1,3 +1,5 @@
+$collapse-button-size: 15px;
+
 :host {
   position: relative; // anchor
   background-color: white;
@@ -6,6 +8,22 @@
   margin: 10px;
   padding: 5px;
   text-align: center;
+  border-radius: 3px;
+  min-width: $collapse-button-size;
+  min-height: $collapse-button-size;
+
+  > button.toggle-visibility {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: $collapse-button-size;
+    height: $collapse-button-size;
+    border: none;
+    color: black;
+    background-color: transparent;
+    outline: none;
+    margin: 0;
+  }
 
   &.dirty-check {
     &.level-1 {
@@ -40,102 +58,127 @@
     }
   }
 
-  > div.state {
+  > div.component::before {
+    position: relative;
+    top: -10px;
+    font-family: monospace;
+    font-size: 10px;
+  }
 
-    > span {
-      display: inline-block;
-      margin: 2px 0;
-      padding: 2px 3px;
-      border-radius: 3px;
-      border: 1px solid;
-      font-size: .8rem;
-      color: black;
-      background-color: white;
+  &.view-child {
+    border-style: solid;
+    > div.component::before {
+      content: '<<ViewChild>>';
     }
+  }
 
-    > span.strategy-box {
-      border-color: black;
-      color: white;
+  &.content-child {
+    border-style: dashed;
+    > div.component::before {
+      content: '<<ContentChild>>';
+    }
+  }
 
-      &.Default {
+  > div.component {
+    > div.state {
+
+      > span {
+        display: inline-block;
+        margin: 2px 0;
+        padding: 2px 3px;
+        border-radius: 3px;
+        border: 1px solid;
+        font-size: .8rem;
+        color: black;
+        background-color: white;
+      }
+
+      > span.strategy-box {
         border-color: black;
-        background-color: black;
         color: white;
+
+        &.Default {
+          border-color: black;
+          background-color: black;
+          color: white;
+        }
+
+        &.OnPush {
+          border-color: deeppink;
+          background-color: deeppink;
+          color: white;
+        }
       }
 
-      &.OnPush {
-        border-color: deeppink;
-        background-color: deeppink;
-        color: white;
-      }
-    }
-
-    > span.cd-state-box {
-      border-color: #004d1a;
-      color: #004d1a;
-      background-color: #b3ffcc;
-      &::before {
-        content: 'attached';
-      }
-
-      &.cd-detached {
-        color: #000000;
-        background-color: #cccccc;
-        border-color: #000000;
+      > span.cd-state-box {
+        border-color: #004d1a;
+        color: #004d1a;
+        background-color: #b3ffcc;
         &::before {
-          content: 'detached';
+          content: 'attached';
+        }
+
+        &.cd-detached {
+          color: #000000;
+          background-color: #cccccc;
+          border-color: #000000;
+          &::before {
+            content: 'detached';
+          }
+        }
+      }
+
+      > span.ng-do-check-box {
+        border-color: darkgray;
+        color: darkgray;
+
+        &.ng-do-check {
+          border-color: red;
+          color: red;
+          background-color: #ffe6e6;
+        }
+      }
+
+      > span.ng-on-changes-box {
+        border-color: darkgray;
+        color: darkgray;
+
+        &.ng-on-changes {
+          border-color: red;
+          color: red;
+          background-color: #ffe6e6;
         }
       }
     }
 
-    > span.ng-do-check-box {
-      border-color: darkgray;
-      color: darkgray;
+    > div.name {
+      padding: 5px 0;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-      &.ng-do-check {
-        border-color: red;
-        color: red;
-        background-color: #ffe6e6;
+    > table.input-box {
+      margin: 5px auto;
+      font-size: 11px;
+      border: 1px solid #000000;
+      border-spacing: 0;
+      border-collapse: collapse;
+
+      td, th {
+        padding: 2px 3px;
+        text-align: left;
       }
     }
 
-    > span.ng-on-changes-box {
-      border-color: darkgray;
-      color: darkgray;
-
-      &.ng-on-changes {
-        border-color: red;
-        color: red;
-        background-color: #ffe6e6;
-      }
+    > div.control > button {
+      font-size: 12px;
     }
-  }
 
-  > div.name{
-    padding: 5px 0;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  > table.input-box {
-    margin: 5px auto;
-    font-size: 11px;
-    border: 1px solid #000000;
-    border-spacing: 0;
-    border-collapse: collapse;
-
-    td, th {
-      padding: 2px 3px;
-      text-align: left;
+    > div.children {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: center;
     }
-  }
-
-  > div.control > button {
-    font-size: 12px;
-  }
-
-  > div.children {
-    display: flex;
-    justify-content: center;
   }
 }
