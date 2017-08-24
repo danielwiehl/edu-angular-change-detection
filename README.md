@@ -1,6 +1,9 @@
 # EduChangeDetection
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.3.
+This project illustrates how Angular change detection works.
+
+## Live demo URL
+https://danielwiehl.github.io/edu-angular-change-detection/
 
 ## Development server
 
