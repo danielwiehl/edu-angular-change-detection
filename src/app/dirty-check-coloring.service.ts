@@ -1,10 +1,7 @@
 import { ElementRef, Injectable, NgZone } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { delay, delayWhen, distinctUntilChanged, take } from 'rxjs/operators';
 import { DelayedScheduler } from './delayed-scheduler.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-
-import 'rxjs/add/operator/distinctUntilChanged';
 
 /**
  * Controls coloring of dirty checked components.
@@ -46,26 +43,28 @@ export class DirtyCheckColoringService {
       });
 
       if (this._autoClearColoring) {
-        this._delayedScheduler.done$
-          .take(1) // subscribe once
-          .delay(1000) // clear after 1s
-          .subscribe(() => {
-            element.classList.remove(cssClass);
-            this._busy$.next(false);
-          });
+        this._delayedScheduler.done$.pipe(
+          take(1), // subscribe once
+          delay(1000) // clear after 1s
+        )
+        .subscribe(() => {
+          element.classList.remove(cssClass);
+          this._busy$.next(false);
+        });
       } else {
-        this._delayedScheduler.done$
-          .take(1) // subscribe once
-          .delayWhen(() => this._clearColoring$)
-          .subscribe(() => {
-            element.classList.remove(cssClass);
-            this._busy$.next(false);
-          });
+        this._delayedScheduler.done$.pipe(
+          take(1), // subscribe once
+          delayWhen(() => this._clearColoring$)
+        )
+        .subscribe(() => {
+          element.classList.remove(cssClass);
+          this._busy$.next(false);
+        });
       }
     });
   }
 
   public get busy$(): Observable<boolean> {
-    return this._busy$.asObservable().distinctUntilChanged();
+    return this._busy$.asObservable().pipe(distinctUntilChanged());
   }
 }

@@ -1,6 +1,5 @@
-import { Injectable, NgZone } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { NgZone } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
 
 export type Fn = () => void;
 
