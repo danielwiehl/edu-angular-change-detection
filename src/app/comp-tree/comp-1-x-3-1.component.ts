@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, NgZone, Renderer, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
 import { ColorService } from '../color.service';
 import { AbstractChangeDetectionComponent } from '../abstract-change-detection.component';
 import { template } from '../change-detection.component.template';
 import { DirtyCheckColoringService } from '../dirty-check-coloring.service';
-import { ExpandCollapseService } from 'app/expand-collapse.service';
+import { ExpandCollapseService } from '../expand-collapse.service';
 
 const NAME = 'comp-1-x-3-1';
 const LEVEL = 4;

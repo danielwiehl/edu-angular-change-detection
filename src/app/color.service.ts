@@ -1,8 +1,5 @@
 import { ElementRef, Injectable, NgZone } from '@angular/core';
 
-import 'rxjs/add/operator/delayWhen';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/take';
 import { DirtyCheckColoringService } from './dirty-check-coloring.service';
 
 @Injectable()

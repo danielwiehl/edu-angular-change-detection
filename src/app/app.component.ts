@@ -1,19 +1,14 @@
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject, fromEvent } from 'rxjs';
 import { AfterViewInit, ApplicationRef, Component, ElementRef, NgZone, OnDestroy, ViewChild } from '@angular/core';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { NumberHolder } from './number-holder';
 import { DirtyCheckColoringService } from './dirty-check-coloring.service';
 import { ExpandCollapseService, State } from './expand-collapse.service';
 
 @Component({
-  selector: 'app-root',
+  selector   : 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls  : ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
 
@@ -25,40 +20,40 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   public inputByRef = new NumberHolder();
   public inputObservable = new Subject<number>();
 
-  @ViewChild('apptick_button')
+  @ViewChild('apptick_button', { static: true })
   private _apptickButton: ElementRef;
 
-  @ViewChild('timeout_button')
+  @ViewChild('timeout_button', { static: true })
   private _timeoutButton: ElementRef;
 
-  @ViewChild('click_button')
+  @ViewChild('click_button', { static: true })
   private _clickButton: ElementRef;
 
-  @ViewChild('trigger_change')
+  @ViewChild('trigger_change', { static: true })
   private _triggerChangeButton: ElementRef;
 
-  @ViewChild('clear')
+  @ViewChild('clear', { static: true })
   private _clearButton: ElementRef;
 
-  @ViewChild('auto_clear')
+  @ViewChild('auto_clear', { static: true })
   private _autoClearCheckbox: ElementRef;
 
-  @ViewChild('toggle_content_children')
+  @ViewChild('toggle_content_children', { static: true })
   private _toggleContentChildren: ElementRef;
 
-  @ViewChild('input_value_field')
+  @ViewChild('input_value_field', { static: true })
   private _inputValueField: ElementRef;
 
-  @ViewChild('propagate_by_value_checkbox')
+  @ViewChild('propagate_by_value_checkbox', { static: true })
   private _propagateByValueCheckbox: ElementRef;
 
-  @ViewChild('propagate_by_ref_checkbox')
+  @ViewChild('propagate_by_ref_checkbox', { static: true })
   private _propagateByRefCheckbox: ElementRef;
 
-  @ViewChild('propagate_by_observable_checkbox')
+  @ViewChild('propagate_by_observable_checkbox', { static: true })
   private _propagateByObservableCheckbox: ElementRef;
 
-  @ViewChild('propagate_in_zone_checkbox')
+  @ViewChild('propagate_in_zone_checkbox', { static: true })
   private _propagateInZoneCheckbox: ElementRef;
 
   constructor(private _zone: NgZone, private _appRef: ApplicationRef, private _dirtyCheckColoringService: DirtyCheckColoringService, private _expandCollapseService: ExpandCollapseService) {
@@ -69,83 +64,90 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     this._zone.runOutsideAngular(() => {
       // apptick
-      Observable.fromEvent(this._apptickButton.nativeElement, 'click')
-        .do(() => this._dirtyCheckColoringService.clearColoring())
-        .takeUntil(this._destroy$)
-        .subscribe(event => this._appRef.tick());
+      fromEvent(this._apptickButton.nativeElement, 'click').pipe(
+        tap(() => this._dirtyCheckColoringService.clearColoring()),
+        takeUntil(this._destroy$)
+      )
+      .subscribe(event => this._appRef.tick());
 
       // timeout
-      Observable.fromEvent(this._timeoutButton.nativeElement, 'click')
-        .takeUntil(this._destroy$)
-        .subscribe(event => {
-          setTimeout(() => this._zone.run(() => console.log(`setTimeout(...)`)), 3000);
-        });
+      fromEvent(this._timeoutButton.nativeElement, 'click').pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(event => {
+        setTimeout(() => this._zone.run(() => console.log(`setTimeout(...)`)), 3000);
+      });
 
       // clear auto checkbox
-      Observable.fromEvent(this._autoClearCheckbox.nativeElement, 'change')
-        .takeUntil(this._destroy$)
-        .map((event: Event) => event.srcElement as HTMLInputElement)
-        .subscribe(element => {
-          this._dirtyCheckColoringService.setAutoClearColoring(element.checked);
-        });
+      fromEvent(this._autoClearCheckbox.nativeElement, 'change').pipe(
+        takeUntil(this._destroy$),
+        map((event: Event) => event.srcElement as HTMLInputElement)
+      )
+      .subscribe(element => {
+        this._dirtyCheckColoringService.setAutoClearColoring(element.checked);
+      });
 
       // clear
-      Observable.fromEvent(this._clearButton.nativeElement, 'click')
-        .takeUntil(this._destroy$)
-        .subscribe(_ => {
-          this._dirtyCheckColoringService.clearColoring();
-        });
+      fromEvent(this._clearButton.nativeElement, 'click').pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(_ => {
+        this._dirtyCheckColoringService.clearColoring();
+      });
 
       // Change input
-      Observable.fromEvent(this._triggerChangeButton.nativeElement, 'click')
-        .takeUntil(this._destroy$)
-        .do(() => this._dirtyCheckColoringService.clearColoring())
-        .subscribe(_ => {
-          if (this.isPropagateInZone()) {
-            this._zone.run(this.updateInputValue.bind(this));
-          } else {
-            this.updateInputValue();
-          }
-        });
+      fromEvent(this._triggerChangeButton.nativeElement, 'click').pipe(
+        takeUntil(this._destroy$),
+        tap(() => this._dirtyCheckColoringService.clearColoring())
+      ).subscribe(_ => {
+        if (this.isPropagateInZone()) {
+          this._zone.run(this.updateInputValue.bind(this));
+        } else {
+          this.updateInputValue();
+        }
+      });
 
       // Toggle content children
-      Observable.fromEvent(this._toggleContentChildren.nativeElement, 'click')
-        .takeUntil(this._destroy$)
-        .subscribe(_ => this._expandCollapseService.toggleContentChildren());
+      fromEvent(this._toggleContentChildren.nativeElement, 'click').pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(_ => this._expandCollapseService.toggleContentChildren());
 
       // Toggle ContentChildren
-      this._expandCollapseService.contentChildren$
-        .takeUntil(this._destroy$)
-        .subscribe(state => {
-          const button = this._toggleContentChildren.nativeElement as HTMLElement;
-          button.innerHTML = (state === State.Expand ? 'Collapse ContentChildren' : 'Expand ContentChildren');
-        });
+      this._expandCollapseService.contentChildren$.pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(state => {
+        const button = this._toggleContentChildren.nativeElement as HTMLElement;
+        button.innerHTML = (state === State.Expand ? 'Collapse ContentChildren' : 'Expand ContentChildren');
+      });
 
       // Busy
-      this._dirtyCheckColoringService.busy$
-        .takeUntil(this._destroy$)
-        .subscribe(busy => {
-          this.busy = busy;
-          this._apptickButton.nativeElement.disabled = busy;
-          this._timeoutButton.nativeElement.disabled = busy;
-          this._clickButton.nativeElement.disabled = busy;
-          this._autoClearCheckbox.nativeElement.disabled = busy;
-          this._triggerChangeButton.nativeElement.disabled = busy;
-          this._propagateByValueCheckbox.nativeElement.disabled = busy;
-          this._propagateByRefCheckbox.nativeElement.disabled = busy;
-          this._propagateByObservableCheckbox.nativeElement.disabled = busy;
-          this._propagateInZoneCheckbox.nativeElement.disabled = busy;
-          if (busy && !this._dirtyCheckColoringService.isAutoClearColoring()) {
-            this._clearButton.nativeElement.classList.add('emphasize');
-          } else {
-            this._clearButton.nativeElement.classList.remove('emphasize');
-          }
-        });
+      this._dirtyCheckColoringService.busy$.pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(busy => {
+        this.busy = busy;
+        this._apptickButton.nativeElement.disabled = busy;
+        this._timeoutButton.nativeElement.disabled = busy;
+        this._clickButton.nativeElement.disabled = busy;
+        this._autoClearCheckbox.nativeElement.disabled = busy;
+        this._triggerChangeButton.nativeElement.disabled = busy;
+        this._propagateByValueCheckbox.nativeElement.disabled = busy;
+        this._propagateByRefCheckbox.nativeElement.disabled = busy;
+        this._propagateByObservableCheckbox.nativeElement.disabled = busy;
+        this._propagateInZoneCheckbox.nativeElement.disabled = busy;
+        if (busy && !this._dirtyCheckColoringService.isAutoClearColoring()) {
+          this._clearButton.nativeElement.classList.add('emphasize');
+        } else {
+          this._clearButton.nativeElement.classList.remove('emphasize');
+        }
+      });
     });
   }
 
   public clickNoop(): void {
-    console.log(`click`)
+    console.log(`click`);
   }
 
   public ngOnDestroy(): void {

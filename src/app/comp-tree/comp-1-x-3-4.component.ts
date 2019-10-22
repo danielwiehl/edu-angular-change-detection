@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, NgZone, Renderer, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
 import { ColorService } from '../color.service';
 import { AbstractChangeDetectionComponent } from '../abstract-change-detection.component';
 import { template } from '../change-detection.component.template';
