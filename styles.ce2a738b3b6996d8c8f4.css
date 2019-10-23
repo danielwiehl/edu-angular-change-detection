@@ -1,0 +1,1 @@
+body{font-family:Arial,sans-serif;box-sizing:border-box}app-comp-1{width:calc(100% - 40px)}app-comp-1>div.component>div.children{flex-direction:column!important;justify-content:center}button{border:1px solid #a9a9a9;background-color:#fff;box-shadow:none;border-radius:0}button.emphasize{background-color:#dfc;border-color:#260;color:#260}
