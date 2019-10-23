@@ -81,7 +81,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       // clear auto checkbox
       fromEvent(this._autoClearCheckbox.nativeElement, 'change').pipe(
         takeUntil(this._destroy$),
-        map((event: Event) => event.srcElement as HTMLInputElement)
+        map((event: Event) => event.target as HTMLInputElement)
       )
       .subscribe(element => {
         this._dirtyCheckColoringService.setAutoClearColoring(element.checked);
