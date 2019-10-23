@@ -1,38 +1,23 @@
 # This file contains instructions for the build server Travis
 # The build is running on https://travis-ci.com/.
-
-env:
-  global:
-    # $GH_TOKEN Token to access GitHub repo for deploying to GitHub Pages
-    secure: gXNhoPHOyz6XWSLNUcNm7bLxH7U0ZiEFW6rNhU7dlL8ocMyR1veagF9ahs0Cqlrhbt87HmJZzyLRDU2efPj9x+sfWP03WT8mxu8W1K3iSCwn9VDj7+69b7u/KgvBkLYHWPEWQAyQKMmaGG3MyQBhO4cV9ymLof5SO/3IWhQOSolp0Z+MlfFmicMz7jewUkZOVskF3g3JJGxgH1RpN6b07LhEPSU0pesnSA9QUAcxJ4L9RgLVhdxsY2oC1Fr05Gu++m6csPFPB4IHtRtnwfOcmfPW++nM50NJmaPl5RNHz9nBvF870EzJ1vKgQirSU4tkzRrwGIZoVbNr0vWtcVP6ITOosc5dnvJsxuQ8jkuPDmW0di0iDRjyW0n6X6HnORi2RiX+yWEYz5cEsmi6AIlGf7RBZudbvdNIfBcLahWAd1Hv6KQEQEWKI0utfnsPOao3aewMH8NGQUhvskTjXOhcmRmUpuUywst+TZv7DxkadV/T/erc57sRBoY7v/ilw2KqYsmfpq5T8vXYlIp+VqMh/gvSUrM6hvcKsX121guAmqb41x7hTOYG3h939UDVbb29+oxaoO5J2TMwfgSG0Tus2OrY1IcLUnt14YGmkxkPRdh4aC1aXBMU9Jg7tRer58+wtoaJLaFTIq7XqDyZWpXGEJ/SHs0KEe9FpgFHukNJLwo=
-
 sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - '8'
-addons:
-apt:
-  sources:
-    - google-chrome
-  packages:
-    - google-chrome-stable
-    - google-chrome-beta
-before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - '10.16.0'
+env:
+  global:
+    # $GH_TOKEN Token to access GitHub repo for deploying to GitHub Pages
+    secure: MkDemB4Dtt3jr1XJmLdmQUdP3gKJ4uNitKyi00SeslVj4P3P2LRbTdRGu7U9WYT9hSW5VocvwVvYqz6WuTnSK1ODw772WTRAwxBbfSrMCkYb8IF7HbNqbIvDtlptnKl7vePMVs+F/ZWEd9ALlJ+fjpFqPmBc8LrGJY2fbBnprxQjQo3iQg0N7ThLc6xlMKdTlio+QFuVythC26Ni7w25Bz3ZeA5dd/0+mF3rPKRQzCrIapADBO2pG+WQ2PuQQpJb/WX9cnSkcKMsjBfvlA/Apsr875qvfprAS68/zRhGzssKn578blEhzi61w1Jz+0VM+dgTuYSp7y+0vNhmNZcI5h3fh6wEntWEWi57isKkf355mNIo65UWqATR2jFntX85qEQoyr1HgYUYr2QdqJIorIn2YrjS1VxmxeGGCvlqQIz/nUr+bePoqBdUM4hOhuGS0xcG74Sh7HMpj8UqIT0prfteO9RKY3jJdBAaUORe1y2L7RFVUO5P9CQzZAWv1s/UppXxKu3KfrbeooW0Uc80Y7b79t+FTiHOn8PwLPtxR9AkkHk9pvPyELRWOvr7O8qhIz966ZzR5rCL8/FYENlI11XLZD/IR2mCIRsX14aGLkwhLX7hSXeS1sjW5CfF4nJ14dGRr9zd5r+/+z3ItnwyFPS1aasXv01YbSWK4fd2VzY=
 install:
-  - npm install
+- npm install
 script:
-  - ng lint
-#  - ng test --single-run
-  - npm run build-ghpages
+- ng lint
+- npm run build-ghpages
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GH_TOKEN
-  local_dir: dist
+  local_dir: dist/change-detection
   on:
     branch: master
-
